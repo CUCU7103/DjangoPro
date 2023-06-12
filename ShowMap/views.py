@@ -37,6 +37,7 @@ def rental(request):
     # 데이터의 위도, 경도를 받아서 마커를 생성함.
     for lat, long in zip(coords['위도'], coords['경도']):
         folium.Marker([lat, long], icon = folium.Icon(color="green")).add_to(marker_cluster)
+        # folium.Marker([lat,long], icon = folium.Icon(color="green")).add_to(marker_cluster)
     
     # 템플릿에 보내기 위해서 사용함.
     maps = m._repr_html_()
@@ -72,7 +73,7 @@ def rental(request):
 
 
 def chart(request):
-    
+    show_chart = pd.read_csv("", encoding="")
     
     
     
