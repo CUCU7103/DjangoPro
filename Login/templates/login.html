@@ -1,0 +1,63 @@
+<!-- 2022.06.12
+{% comment %} 로그인 화면 {% endcomment %} -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 화면</title>
+    {% comment %} CSS연동 {% endcomment %}
+    <link rel='stylesheet' type="text/css" href="{% static 'css/login.css' %}"/>
+</head>
+<body>
+
+{% comment %} 회원가입 {% endcomment %}
+<div class="container" id="container">
+  <div class="form-container sign-up-container">
+    <form method="post" action="signup/" name="signup">
+      {% csrf_token %}
+      <h1>Create Account</h1>
+      <div class="social-container">
+       </div>
+      <input type="text" placeholder="Id" id="account" name="account"/>
+      <input type="email" placeholder="Email" id="email" name="email" />
+      <input type="password" placeholder="Password" id="password" name="password"/>
+      <input type="text" placeholder="Name" id="username" name="username"/>
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+
+  {% comment %} 로그인 {% endcomment %}
+  <div class="form-container sign-in-container">
+    <form method="post" action="/login/" name="login">
+      {% csrf_token %}
+      <h1>로그인</h1>
+      <div class="social-container"></div>
+      <input type="text" placeholder="Id" id="account" name="account"/>
+      <input type="password" placeholder="Password" id="password" name="password"/>
+      <a href="/">Forgot your password?</a>
+      <button>Sign In</button>
+    </form>
+  </div>
+
+  {% comment %} 화면전환기능 구현파트 {% endcomment %}
+  <div class="overlay-container">
+    <div class="overlay">
+      <div class="overlay-panel overlay-left">
+        <h1>Welcome Back!</h1>
+        <p>To keep connected with us please login with your personal info</p>
+        <button class="ghost" id="signIn">Sign In</button>
+      </div>
+      <div class="overlay-panel overlay-right">
+        <h1>Hello, Friend!</h1>
+        <p>Enter your personal details and start journey with us</p>
+        <button class="ghost" id="signUp">Sign Up</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{% static 'js/account.js' %}"></script>
+</body>
+</html>
