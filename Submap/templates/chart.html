@@ -1,0 +1,51 @@
+{% extends 'base.html'%}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %} 
+
+{% block content%}
+{% comment %} 기본 chart.js 양식 {% endcomment %}
+<span class="container d-flex justify-content-center align-items-center" style="height: 100vh; width: 90vh;">
+    <canvas id="myChart" ></canvas> 
+    {% comment %} 차트를 표시하기 위함. {% endcomment %}
+</span>
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <script>
+    var jsonData = {{chartdata|safe}}
+
+    // 데이터 추출함
+    var months = jsonData.map(function(item) {
+        return item.대여일시;
+      });
+
+    // 데이터 추출함
+    var rentals = jsonData.map(function(item) {
+        return item.대여건수;
+      });
+
+    const ctx = document.getElementById('myChart');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: months,
+        datasets: [{
+          label: '월별 대여건수',
+          data: rentals,
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+
+{% endblock%}

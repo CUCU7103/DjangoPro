@@ -18,10 +18,14 @@ from django.contrib import admin
 from django.urls import path,include
 from bicycleapp import views
 
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.homeFunc),
-    path("login/", views.login), # 로그인 페이지
+    # path('logout/',views.logout),
+    path("login/",include("Login.urls")),
     path("showmap/", include('ShowMap.urls')), # 메인페이지 지도 보여줌
     path("report/", include("Report.urls")), # app name = Report의 url
+    path("statistics/", include("ShowStat.urls")), # 통계 페이지 @jujuclubw 230613
+    path("submap/",include("Submap.urls")) # 현황페이지 링크
 ]

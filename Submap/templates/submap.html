@@ -1,0 +1,39 @@
+{% extends 'base.html'%}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title%}대여소 현황{% endblock %}
+    {% block extra_style %}
+     <link rel='stylesheet' type="text/css" href="{% static 'style.css' %}"/>   
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+        <div class="map-container"> <!-- 한 화면에 표시하기 위해 container css 새로 생성 -->
+            <div class="map-section">
+            <div class="map-title">서울시 대여소 현황</div>
+            <div class="map">
+            {% if map %}
+                {{map | safe}}                                                 
+            {% else %}
+                <div>자료가 넘어오지 않았습니다.</div>
+            {% endif%}
+            </div>
+        </div>
+           
+            {% comment %} folium 데이터를 받아올때 | safe를 사용해야 함{% endcomment %}
+            <div class="map-section">
+                <div class="map-title">제주도 대여소 현황</div>
+                    <div class="map">
+                        {{map2 | safe}}
+                    </div>
+                </div>
+            </div>
+        
+    {% endblock %}
+</body>
+</html>
