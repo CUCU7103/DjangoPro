@@ -137,20 +137,18 @@ from django.http import JsonResponse
 
 
 def showstat2(request):
-    df2 = pd.read_csv("월별이용건수.csv", encoding="UTF-8")
+    df2 = pd.read_csv("ShowStat/static/월별이용건수.csv", encoding="UTF-8")
     chartdata2 = df2.to_json(orient='records',force_ascii=False)  
-    chartdata2 = json.dumps(chartdata2) # 디코딩
-    chartdata2 = json.loads(chartdata2) # 인코딩
+    #print(type(chartdata2)) #<class 'str'>
+    # JSON 형태(str)로 변환
+    # orient 옵션을 'records'로 설정하면 각 행이 개별적인 JSON 객체로 구성되며, 
+    # #force_ascii=False로 설정하면 유니코드 문자가 그대로 유지
 
-    df3 = pd.read_csv("월별 신규가입자수.csv", encoding="UTF-8")
+    df3 = pd.read_csv("ShowStat/static/월별 신규가입자수.csv", encoding="UTF-8")
     chartdata3 = df3.to_json(orient='records',force_ascii=False)  
-    chartdata3 = json.dumps(chartdata3) # 디코딩
-    chartdata3 = json.loads(chartdata3) # 인코딩
     
-    df4 = pd.read_csv("연도별 제주관광객수.csv", encoding="UTF-8")
+    df4 = pd.read_csv("ShowStat/static/연도별 제주관광객수.csv", encoding="UTF-8")
     chartdata4 = df4.to_json(orient='records',force_ascii=False)  
-    chartdata4 = json.dumps(chartdata4) # 디코딩
-    chartdata4 = json.loads(chartdata4) # 인코딩
 
     return render(request,"charts2.html",{'chartdata2':chartdata2 ,'chartdata3':chartdata3,'chartdata4':chartdata4})
 

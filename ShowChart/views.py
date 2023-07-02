@@ -24,29 +24,35 @@ def forgotpw(request):
 
 def charts(request):
     
-    df = pd.read_excel("./rental3.xlsx")
+    df = pd.read_excel("./rental3.xlsx") #칼럼: 지역번호, 지역구, 대여소갯수
+    
     # 지도의 기준이 되는 위도 경도 
     # 서울의 위도 경도이다.
     latitude = 37.562225
     longitude = 126.978555
     
-    # 지도 생성함
+    # 지도 객체 생성
     m  = folium.Map(
         location= [latitude, longitude],
         zoom_start=10, # 줌
         tiles= "OpenStreetMap",
     )
     
-    with open('./hangjeongdong_.json',mode='rt',encoding='utf-8') as f:
+    # with open()문을 사용하면 with문을 벗어날 떄 자동으로 파일이 닫힘
+    with open('./hangjeongdong_.json',mode='rt',encoding='utf-8') as f: #f는 파일 객체
         geo = json.loads(f.read())    
+    #파일을 열고 작업을 수행하는 동안에는 파일에 대한 자원(메모리, 파일 핸들 등)이 할당되고 락이 설정됨
+    #파일을 닫으면 이러한 자원을 해제해 다른 프로세스나 스레드에서 접근 가능해짐
     
-    for feature in geo['features']:
-        code = feature['properties']['code']
-        name = feature['properties']['name']
-        # print(code) 
-        # print(name)
-        f.close()
-
+    #[GeoJSON]
+    #지리 정보(Geographic Information)를 표현하기 위한 개방형 표준 데이터 형식
+    #JSON(JavaScript Object Notation) 형식을 기반으로 하며, 지리 데이터를 구조화하여 저장하고 전송하기 위해 설계됨
+    # 개체타입
+    # 1. Feature (특징): 지리적인 개체 하나를 나타내는 개체
+    # 2. Feature Collection (특징 컬렉션): 여러 개의 Feature를 그룹화한 컬렉션입니다. 한 GeoJSON 파일에 여러 개의 Feature를 포함할 때 사용
+    # 3. Geometry (지오메트리): 지리 개체의 형태를 정의하는 객체로, 점(Point), 선(LineString), 다각형(Polygon) 등의 지오메트리 타입이 있습니다.
+    # 4. Properties (속성): Feature나 Feature Collection에 대한 추가 정보를 저장하는 객체
+    
     folium.Choropleth(
         geo_data= geo,
         name='choropleth',
@@ -59,13 +65,12 @@ def charts(request):
         color = 'black',
         overlay="True",
         legend_name='대여소 분포',
-    ).add_to(m)
+    ).add_to(m) #Choropleth 레이어를 지도 m에 추가
     
-    maps1 = m._repr_html_()
+    maps1 = m._repr_html_() #지도 m을 HTML 형식으로 변환
     
     # 서울시 지자체별 파일
     # state_geo = 'https://raw.githubusercontent.com/southkorea/seoul-maps/master/kostat/2013/json/seoul_municipalities_geo_simple.json'
-    
 
     # 서울시 유동인구 파일(행정구역별,나이대별,총이동)
     df = pd.read_csv('./seoul_float_pop_age.csv',encoding='utf-8')
@@ -92,7 +97,7 @@ def charts(request):
 
 #--------------------------------------------------------------------
 
-    df = pd.read_csv('./rental.csv',encoding='cp949')
+    df = pd.read_csv('./rental.csv',encoding='cp949') #서울시 대여소. 컬럼: 대여소_ID,주소1,주소2,위도,경도
     df1 = df[(df['위도'] != 0) & (df['경도'] != 0)]
     df = df1.reset_index(drop=True)
     sub = df[['위도','경도']]
@@ -107,13 +112,12 @@ def charts(request):
     m = folium.Map(
         location=[latitude, longitude],
         zoom_start=10,
-    
     )
     
     coords = sub
     # marker cluster 객체를 생성
-    datas = zip(coords['위도'], coords['경도'])
-    plugins.FastMarkerCluster(data=datas).add_to(m)
+    datas = zip(coords['위도'], coords['경도']) #데이터프레임의 '위도'와 '경도' 컬럼 값을 묶어서 datas라는 이터러블 객체(zip 객체)로 생성
+    plugins.FastMarkerCluster(data=datas).add_to(m) #FastMarkerCluster 클러스터를 지도 객체(m)에 추가
    
     
     # 데이터의 위도, 경도를 받아서 마커를 생성함.

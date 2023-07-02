@@ -18,7 +18,7 @@ def showmap(request):
 #  * @create date 2023-06-14 14:01:59
 #  * @modify date 2023-06-14 14:01:59
 #  * @desc [유클리디안 거리계산]
-def uclid_process(data_merge,spot_data):
+def uclid_process(data_merge,spot_data): #제주 시설 데이터, 위치 데이터 
     # 결과 데이터프레임 초기화
     result_data = pd.DataFrame(columns=['장소명', '자전거도로', '지하철역', '공원', '관광지','대학'])
     

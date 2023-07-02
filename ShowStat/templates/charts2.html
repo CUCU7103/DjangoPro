@@ -131,10 +131,8 @@
                     <div class="row" >
                         <div class="col-xl-8 col-lg-7">
                             <!-- Area Chart -->
-                            <span>
-                                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                            
-                            </span>
+                            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
                             <div class="card shadow mb-4" style="width: 1250px;">
                                 <div class="card-header py-3" style="width: 1250px;">
                                     <h6 class="m-0 font-weight-bold text-primary">공공자전거 월별 이용건수(18~22년)</h6>
@@ -142,46 +140,46 @@
                                 <div class="card-body" style="width: 1200px;">
                                     <div class="chart-area" style="width: 1200px;">
                                         <canvas id="myChart2" style="width: 900px; height: 250px;"></canvas>
-
+                                        <!--<canvas> 요소는 HTML5에서 도입된 요소로, 그래픽을 그리는 데 사용-->
                                         <script>
                                             // 1번째 그래프
                                             var jsonData2 = {{chartdata2|safe}}
+                                            //이스케이프처리 비활성화 필터 -> js에서 chartdata2 변수(str, json형태) 그대로 가져옴
                         
-                                              // 데이터 추출함
-                                            var labels2 = jsonData2.map(function(item) {
-                                              return item.연월;
-                                              });
+                                            // 데이터 추출함
+                                            var labels2 = jsonData2.map(function(item) { //인자는 배열의 각 요소를 차례로 나타냄
+                                            // jsonData2객체의 각 요소에 대해 익명 함수를 호출
+                                            // map() 함수는 반복 가능한 객체의 각 요소에 주어진 함수를 적용하여 새로운 배열을 반환
+                                                return item.연월; //연월 속성 값을 추출하고, 그 결과를 모은 새로운 배열 반환
+                                            });
                         
                                               // 데이터 추출함
                                             var data2 = jsonData2.map(function(item) {
                                                 return item.이용건수;
                                               });
                                                   
-                                            // 파이 차트를 그릴 캔버스 요소 선택
+                                            // 차트를 그릴 캔버스 요소 선택
                                             var ctx2 = document.getElementById('myChart2').getContext('2d');
-                        
+                                            // 2D 렌더링 컨텍스트를 요청, ctx2로 2D 그래픽을 그리는 데 사용할 수 있는 메서드와 속성을 얻을 수 있습니다.
+
                                             // 차트 초기화
-                                            var myChart2 = new Chart(ctx2, {
-                                              type: 'line',
-                                              data: {
-                                                labels: labels2,
-                                                datasets: [{
-                                                  label: '공공자전거 월별 이용건수(18~22년)',
-                                                  data: data2,
+                                            var myChart2 = new Chart(ctx2, { //(차트를 그릴 컨텍스트, 차트의 설정 정보)
+                                              type: 'line',  //차트의 종류
+                                              data: {        //차트 데이터 관련 설정
+                                                labels: labels2, //차트의 X축에 표시될 레이블을 배열로 제공
+                                                datasets: [{ //데이터세트 정보
+                                                  label: '공공자전거 월별 이용건수(18~22년)', //범례
+                                                  data: data2, //Y값
                                                   backgroundColor: 'rgba(75, 192, 192, 0.2)',
                                                   borderColor: 'rgba(75, 192, 192, 1)',
                                                   borderWidth: 2
                                                 }]
                                               },
-                                                  
                                               options: {    // 차트 옵션 설정
-                                                
                                                 //aspectRatio: 4, // 가로 세로 비율을 1로 설정 (가로와 세로 크기가 동일하게 표시)
                                                 y: {
-                                                    beginAtZero: true  // Y 축이 0부터 시작하도록 설정
-                                                        
-                                                  }
-                                                    
+                                                    beginAtZero: true  // Y 축이 0부터 시작하도록 설정   
+                                                  } 
                                               }
                                             });
                                         </script>
